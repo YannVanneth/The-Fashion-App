@@ -34,4 +34,5 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+config.bat
+node_modules

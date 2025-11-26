@@ -17,5 +17,6 @@ jwt:
   secret-key: dGhpc2lzYXZlcnlzZWN1cmVzZWNyZXRrZXlmb3Jqd3R0b2tlbnNhdXRoZW50aWNhdGlvbjEyMzQ1Ng==
   expiration: 86400000 # 24 hours in milliseconds
   refresh-expiration: 604800000 # 7 days in milliseconds
-
+server:
+  port: 9001
 
