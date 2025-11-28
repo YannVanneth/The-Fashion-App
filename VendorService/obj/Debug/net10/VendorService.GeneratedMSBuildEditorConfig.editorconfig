@@ -1,0 +1,8 @@
+is_global = true
+build_property.RootNamespace = VendorService
+build_property.ProjectDir = /home/yannvanneth/Documents/projects/The-Fashion-App/VendorService/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 
