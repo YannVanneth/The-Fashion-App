@@ -1,0 +1,30 @@
+services:
+  # product_service:
+  #   container_name: "product-service"
+  #   build: .
+  #   restart: always
+  #   depends_on:
+  #     - product_service_db
+  #   environment:
+  #     PRODUCT_SERVICE_PORT: 9006
+  #     PRODUCT_SERVICE_DB_URL: "mongodb://product_service_:product_service_@product-service-db:27017/product_service_db?authSource=admin"
+  #     PRODUCT_SERVICE_EUREKA_URL: "http://127.0.0.1:8761/eureka"
+  #     PRODUCT_SERVICE_APP_IP: "127.0.0.1"
+  #   ports:
+  #     - "9006:9006"
+
+  product_service_db:
+    container_name: "product-service-db"
+    image: mongo:8.2.2
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: product_service_
+      MONGO_INITDB_ROOT_PASSWORD: product_service_
+      MONGO_INITDB_DATABASE: product_service_db
+    ports:
+      - "8002:27017"
+    volumes:
+      - product_service_db_data:/data/db
+
+volumes:
+  product_service_db_data:

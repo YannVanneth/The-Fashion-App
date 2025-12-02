@@ -1,0 +1,495 @@
+basePath: /api/v1
+definitions:
+  dto.ErrorResponse:
+    properties:
+      is_success:
+        example: false
+        type: boolean
+      message:
+        example: Error message
+        type: string
+      status:
+        example: 400
+        type: integer
+    type: object
+  dto.MetaData:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+    type: object
+  dto.SuccessResponse:
+    properties:
+      data: {}
+      is_success:
+        example: true
+        type: boolean
+      message:
+        example: Success
+        type: string
+      meta_data:
+        $ref: '#/definitions/dto.MetaData'
+      status:
+        example: 200
+        type: integer
+    type: object
+  dto.ValidationErrorResponse:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+      is_success:
+        example: false
+        type: boolean
+      message:
+        example: Validation error
+        type: string
+      status:
+        example: 400
+        type: integer
+    type: object
+host: localhost:9006
+info:
+  contact: {}
+  description: API for managing products and product categories in The Fashion App
+  title: Product Service API
+  version: "1.0"
+paths:
+  /product-categories/:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of all product categories with optional filtering
+        and sorting
+      parameters:
+      - description: Filter parameters (e.g., filter[name]=example)
+        in: query
+        name: filter
+        type: string
+      - description: Sort parameter (e.g., 'name', '-created_at')
+        in: query
+        name: sort
+        type: string
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get all product categories
+      tags:
+      - Categories
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new product category with multipart form data
+      parameters:
+      - description: Category name (3-100 characters)
+        in: formData
+        name: category_name
+        required: true
+        type: string
+      - description: Product ID
+        in: formData
+        name: product_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create a new product category
+      tags:
+      - Categories
+  /product-categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a product category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete a product category
+      tags:
+      - Categories
+    get:
+      consumes:
+      - application/json
+      description: Get a single product category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get product category by ID
+      tags:
+      - Categories
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update a product category by ID with multipart form data
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category name (3-100 characters)
+        in: formData
+        name: category_name
+        required: true
+        type: string
+      - description: Product ID
+        in: formData
+        name: product_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update an existing product category
+      tags:
+      - Categories
+  /products/:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of all products with optional filtering and
+        sorting
+      parameters:
+      - description: Filter parameters (e.g., filter[status]=available)
+        in: query
+        name: filter
+        type: string
+      - description: Sort parameter (e.g., 'price', '-created_at')
+        in: query
+        name: sort
+        type: string
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get all products
+      tags:
+      - Products
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new product with multipart form data
+      parameters:
+      - description: Vendor ID
+        in: formData
+        name: vendor_id
+        required: true
+        type: string
+      - description: Category ID
+        in: formData
+        name: category_id
+        required: true
+        type: string
+      - description: Product name (3-100 characters)
+        in: formData
+        name: product_name
+        required: true
+        type: string
+      - description: Product description (10-1000 characters)
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Product price (must be >= 0)
+        in: formData
+        name: price
+        required: true
+        type: number
+      - description: Stock quantity (must be >= 0)
+        in: formData
+        name: stock_quantity
+        required: true
+        type: integer
+      - description: Product status
+        enum:
+        - available
+        - out_of_stock
+        - discontinued
+        in: formData
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create a new product
+      tags:
+      - Products
+  /products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete a product
+      tags:
+      - Products
+    get:
+      consumes:
+      - application/json
+      description: Get a single product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get product by ID
+      tags:
+      - Products
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update a product by ID with multipart form data
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Vendor ID
+        in: formData
+        name: vendor_id
+        required: true
+        type: string
+      - description: Category ID
+        in: formData
+        name: category_id
+        required: true
+        type: string
+      - description: Product name (3-100 characters)
+        in: formData
+        name: product_name
+        required: true
+        type: string
+      - description: Product description (10-1000 characters)
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Product price (must be >= 0)
+        in: formData
+        name: price
+        required: true
+        type: number
+      - description: Stock quantity (must be >= 0)
+        in: formData
+        name: stock_quantity
+        required: true
+        type: integer
+      - description: Product status
+        enum:
+        - available
+        - out_of_stock
+        - discontinued
+        in: formData
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update an existing product
+      tags:
+      - Products
+  /system/health:
+    get:
+      consumes:
+      - application/json
+      description: Returns the current health status of the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse'
+      summary: Get system health status
+      tags:
+      - System
+  /undefined:
+    get:
+      consumes:
+      - application/json
+      description: Returns 404 error for routes that don't exist
+      produces:
+      - application/json
+      responses:
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Handle undefined routes
+      tags:
+      - System
+schemes:
+- http
+- https
+swagger: "2.0"
